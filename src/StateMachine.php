@@ -5,7 +5,6 @@ namespace App;
 
 
 use App\Entity\StateAwareInterface;
-use App\Entity\TrafficLight;
 
 class StateMachine
 {
@@ -22,7 +21,7 @@ class StateMachine
      * 'to_yellow' => 'yellow',
      * ],
      */
-    private $statesWorkflow = [];
+    private $statesWorkflow;
 
     /**
      * StateMachine constructor.
