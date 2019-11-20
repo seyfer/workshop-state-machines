@@ -1,3 +1,28 @@
 framework:
     workflows:
-      # traffic_light:
+        traffic_light:
+            type: 'state_machine' # or 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'currentPlace'
+            supports:
+                - App\Entity\TrafficLight
+            initial_marking: green
+            places:
+                - green
+                - yellow
+                - red
+            transitions:
+                to_green:
+                    from: green
+                    to:   yellow
+                to_yellow:
+                    from:
+                        - red
+                        - green
+                    to:   yellow
+                to_red:
+                    from: yellow
+                    to:   red
