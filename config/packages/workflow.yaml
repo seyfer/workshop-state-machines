@@ -6,7 +6,7 @@ framework:
                 enabled: true
             marking_store:
                 type: 'method'
-                property: 'currentPlace'
+                property: 'state'
             supports:
                 - App\Entity\TrafficLight
             initial_marking: green
@@ -16,8 +16,8 @@ framework:
                 - red
             transitions:
                 to_green:
-                    from: green
-                    to:   yellow
+                    from: yellow
+                    to:   green
                 to_yellow:
                     from:
                         - red
@@ -26,3 +26,134 @@ framework:
                 to_red:
                     from: yellow
                     to:   red
+
+        wtf:
+            type: workflow
+            supports: stdClass # Just a hack
+            places: [ a, b, c, d, e, f, g, h, i, j, k ]
+            transitions:
+                t1:
+                    from: a
+                    to: b
+                t2:
+                    from: b
+                    to: c
+                t3:
+                    from: c
+                    to: d
+                t4:
+                    from: b
+                    to: e
+                t5:
+                    from: b
+                    to: f
+                t6:
+                    from: [c, d]
+                    to: [f, g]
+                t7:
+                    from: e
+                    to: h
+                t8:
+                    from: [e, g, i]
+                    to: h
+                t9:
+                    from: [f, g]
+                    to: [i, j]
+                t10:
+                    from: h
+                    to: k
+
+        article:
+            type: workflow
+            audit_trail: true
+            supports:
+                - App\Entity\Article
+            places:
+                draft:
+                    metadata:
+                        title: Draft
+                wait_for_journalist:
+                    metadata:
+                        title: Wait For Journalist
+                approved_by_journalist:
+                    metadata:
+                        title: Approved By Journalist
+                wait_for_spellchecker:
+                    metadata:
+                        title: Wait For Spellchecker
+                approved_by_spellchecker:
+                    metadata:
+                        title: Approved By Spellchecker
+                published: ~
+            transitions:
+                request_review:
+                    guard: "is_fully_authenticated()"
+                    from: draft
+                    to:
+                        - wait_for_journalist
+                        - wait_for_spellchecker
+                    metadata:
+                        title: Do you want a Review?
+                journalist_approval:
+                    guard: "is_granted('ROLE_JOURNALIST')"
+                    from: wait_for_journalist
+                    to: approved_by_journalist
+                    metadata:
+                        title: Do you valid the article?
+                spellchecker_approval:
+                    guard: "is_fully_authenticated() and has_role('ROLE_SPELLCHECKER')"
+                    from: wait_for_spellchecker
+                    to: approved_by_spellchecker
+                    metadata:
+                        title: Do you valid the spell check?
+                publish:
+                    guard: "is_fully_authenticated()"
+                    from:
+                        - approved_by_journalist
+                        - approved_by_spellchecker
+                    to: published
+                    metadata:
+                        title: Do you want to publish?
+            metadata:
+                title: Workflow to manager article
+
+        pull_request:
+            type: state_machine
+            audit_trail: true
+            marking_store:
+                type: 'method'
+                property: 'state'
+            initial_marking: preSubmit
+            supports:
+                - App\Entity\Article
+            places:
+                - preSubmit
+                - open
+                - merged
+                - closed
+                - locked
+            transitions:
+                to_preSubmit:
+                    from: closed
+                    to: preSubmit
+                to_open:
+                    from:
+                        - preSubmit
+                        - closed
+                        - locked
+                    to: open
+                to_merged:
+                    from:
+                        - open
+                        - locked
+                    to: merged
+                to_closed:
+                    from:
+                        - open
+                        - locked
+                    to: closed
+                to_locked:
+                    from:
+                        - open
+                        - closed
+                    to: locked

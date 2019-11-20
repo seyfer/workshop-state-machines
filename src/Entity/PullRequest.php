@@ -37,6 +37,11 @@ class PullRequest
     /** @var @ORM\Column(type="boolean") */
     private $locked = false;
 
+    /**
+     * @var string
+     */
+    private $state;
+
     public function __construct($name)
     {
         $this->name = $name;
@@ -106,4 +111,24 @@ class PullRequest
     {
         $this->locked = $locked;
     }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $state
+     * @return PullRequest
+     */
+    public function setState(string $state): PullRequest
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+
 }
