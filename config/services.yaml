@@ -15,6 +15,11 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    state_machine.traffic_light_php:
+        public: true
+        class: Symfony\Component\Workflow\StateMachine
+        factory: 'App\Workflow\TrafficLightFactory:create'
+
 sensio_framework_extra:
     router:
         annotations: false

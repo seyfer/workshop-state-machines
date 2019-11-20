@@ -40,11 +40,11 @@ class SignupController extends Controller
             $this->em->persist($user);
             $this->em->flush();
 
-            return $this->redirectToRoute('signup_email', ['id'=>$user->getId()]);
+            return $this->redirectToRoute('signup_email', ['id' => $user->getId()]);
         }
 
         return $this->render('signup/start.html.twig', [
-            'form'=>$form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -60,11 +60,11 @@ class SignupController extends Controller
             $this->em->persist($user);
             $this->em->flush();
 
-            return $this->redirectToRoute('signup_twitter', ['id'=>$user->getId()]);
+            return $this->redirectToRoute('signup_twitter', ['id' => $user->getId()]);
         }
 
         return $this->render('signup/email.html.twig', [
-            'form'=>$form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -79,11 +79,11 @@ class SignupController extends Controller
             $this->em->persist($user);
             $this->em->flush();
 
-            return $this->redirectToRoute('signup_color', ['id'=>$user->getId()]);
+            return $this->redirectToRoute('signup_color', ['id' => $user->getId()]);
         }
 
         return $this->render('signup/twitter.html.twig', [
-            'form'=>$form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -98,20 +98,21 @@ class SignupController extends Controller
             $this->em->persist($user);
             $this->em->flush();
 
-            return $this->redirectToRoute('signup_done', ['id'=>$user->getId()]);
+            return $this->redirectToRoute('signup_done', ['id' => $user->getId()]);
         }
 
         return $this->render('signup/color.html.twig', [
-            'form'=>$form->createView(),
+            'form' => $form->createView(),
         ]);
     }
+
     /**
      * @Route("/signup/done/{id}", name="signup_done")
      */
     public function done(UserProfile $user)
     {
         return $this->render('signup/done.html.twig', [
-            'user'=>$user,
+            'user' => $user,
         ]);
     }
 }

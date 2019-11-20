@@ -70,7 +70,7 @@ class PullRequestController extends Controller
         $em->persist($pullRequest);
         $em->flush();
 
-        return $this->redirectToRoute('pull_request_show', ['id'=>$pullRequest->getId()]);
+        return $this->redirectToRoute('pull_request_show', ['id' => $pullRequest->getId()]);
     }
 
     /**
@@ -89,7 +89,7 @@ class PullRequestController extends Controller
         $em->persist($pullRequest);
         $em->flush();
 
-        return $this->redirectToRoute('pull_request_show', ['id'=>$pullRequest->getId()]);
+        return $this->redirectToRoute('pull_request_show', ['id' => $pullRequest->getId()]);
     }
 
     /**
@@ -108,7 +108,7 @@ class PullRequestController extends Controller
         $em->persist($pullRequest);
         $em->flush();
 
-        return $this->redirectToRoute('pull_request_show', ['id'=>$pullRequest->getId()]);
+        return $this->redirectToRoute('pull_request_show', ['id' => $pullRequest->getId()]);
     }
 
     /**
@@ -130,7 +130,7 @@ class PullRequestController extends Controller
         $em->persist($pullRequest);
         $em->flush();
 
-        return $this->redirectToRoute('pull_request_show', ['id'=>$pullRequest->getId()]);
+        return $this->redirectToRoute('pull_request_show', ['id' => $pullRequest->getId()]);
     }
 
     /**
@@ -151,7 +151,7 @@ class PullRequestController extends Controller
         $em->persist($pullRequest);
         $em->flush();
 
-        return $this->redirectToRoute('pull_request_show', ['id'=>$pullRequest->getId()]);
+        return $this->redirectToRoute('pull_request_show', ['id' => $pullRequest->getId()]);
     }
 
     /**
@@ -170,6 +170,6 @@ class PullRequestController extends Controller
         $em->persist($pullRequest);
         $em->flush();
 
-        return $this->redirectToRoute('pull_request_show', ['id'=>$pullRequest->getId()]);
+        return $this->redirectToRoute('pull_request_show', ['id' => $pullRequest->getId()]);
     }
 }

@@ -15,10 +15,10 @@ class WorkflowExtension extends \Twig_Extension
 
     public function getFunctions()
     {
-        return array(
+        return [
             new \Twig_SimpleFunction('workflow_all_transitions', [$this, 'getTransitions']),
             new \Twig_SimpleFunction('workflow_build_transition_blocker_list', [$this, 'buildTransitionBlockerList']),
-        );
+        ];
     }
 
     public function getFilters()
@@ -27,8 +27,6 @@ class WorkflowExtension extends \Twig_Extension
             new \Twig_SimpleFilter('bool2string', [$this, 'boolToString']),
         ];
     }
-
-
 
     // This method is a hack to get all transitions, enabled or not.
     // This should be done only for a demo purpose

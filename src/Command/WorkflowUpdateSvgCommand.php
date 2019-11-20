@@ -18,8 +18,7 @@ class WorkflowUpdateSvgCommand extends ContainerAwareCommand
         $this
             ->setName('workflow:build:svg')
             ->setDescription('Build the SVG')
-            ->addArgument('service_name', InputArgument::REQUIRED, 'The service name of the workflow (ex workflow.article)')
-        ;
+            ->addArgument('service_name', InputArgument::REQUIRED, 'The service name of the workflow (ex workflow.article)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

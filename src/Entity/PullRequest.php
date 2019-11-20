@@ -22,19 +22,19 @@ class PullRequest
     /** @ORM\Column(type="string", length=255) */
     private $name;
 
-    /** @var @ORM\Column(type="boolean")  */
+    /** @var @ORM\Column(type="boolean") */
     private $preSubmit = true;
 
-    /** @var @ORM\Column(type="boolean")  */
+    /** @var @ORM\Column(type="boolean") */
     private $open = false;
 
-    /** @var @ORM\Column(type="boolean")  */
+    /** @var @ORM\Column(type="boolean") */
     private $merged = false;
 
-    /** @var @ORM\Column(type="boolean")  */
+    /** @var @ORM\Column(type="boolean") */
     private $closed = false;
 
-    /** @var @ORM\Column(type="boolean")  */
+    /** @var @ORM\Column(type="boolean") */
     private $locked = false;
 
     public function __construct($name)
