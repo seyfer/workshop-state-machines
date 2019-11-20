@@ -18,7 +18,7 @@ class AddYourTwitter implements StateInterface
     {
         $user = $stateMachine->getUser();
 
-        if (empty($user->getTwitter())) {
+        if (empty($user->getTwitter()) && !empty($user->getEmail())) {
             $mailer->sendEmail($user, $user->getId() . ' please enter your twitter ');
             return self::STOP;
         }
