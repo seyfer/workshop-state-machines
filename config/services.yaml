@@ -15,14 +15,23 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    state_machine.traffic_light_php:
-        public: true
-        class: Symfony\Component\Workflow\StateMachine
-        factory: 'App\Workflow\TrafficLightFactory:create'
+#    state_machine.traffic_light:
+#        public: true
+#        class: Symfony\Component\Workflow\StateMachine
+#        factory: 'App\Workflow\TrafficLightFactory:create'
+
+#    state_machine.traffic_light_php:
+#        public: true
+#        class: Symfony\Component\Workflow\StateMachine
+#        factory: 'App\Workflow\TrafficLightFactory:create'
 
     App\Controller\SignupController:
         arguments:
             $stateMachine: '@state_machine.signup'
+
+#    App\Controller\TrafficLightController:
+#        arguments:
+#            $stateMachine: '@state_machine.traffic_light'
 
 sensio_framework_extra:
     router:

@@ -19,11 +19,13 @@ class TrafficLightFactory
             ->addTransition(new Transition('to_yellow', ['green', 'red'], 'yellow'))
             ->addTransition(new Transition('to_red', 'yellow', 'red'))
             ->addTransition(new Transition('to_green', 'yellow', 'green'))
+            ->setInitialPlaces('green')
             ->build();
 
         $singleState = true; // true if the subject can be in only one state at a given time
-        $property = 'currentState'; // subject property name where the state is stored
+        $property = 'state'; // subject property name where the state is stored
         $marking = new MethodMarkingStore($singleState, $property);
-        return new StateMachine($definition, $marking);
+
+        return new StateMachine($definition, $marking, new EventDispatcher());
     }
 }

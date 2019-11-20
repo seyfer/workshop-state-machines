@@ -48,7 +48,6 @@ class WorkflowExtension extends \Twig_Extension
         return $workflow->buildTransitionBlockerList($subject, $transitionName);
     }
 
-
     public function boolToString($bool)
     {
         if ($bool) {

@@ -7,12 +7,30 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Workflow\Exception\ExceptionInterface;
+use Symfony\Component\Workflow\Registry;
+use Symfony\Component\Workflow\StateMachine;
+use Symfony\Component\Workflow\SupportStrategy\InstanceOfSupportStrategy;
 
 /**
  * @Route("/traffic-light")
  */
 class TrafficLightController extends Controller
 {
+//    /**
+//     * @var Registry
+//     */
+//    private $registry;
+//
+//    /**
+//     * TrafficLightFactory constructor.
+//     * @param $registry
+//     */
+//    public function __construct(Registry $registry, StateMachine $stateMachine)
+//    {
+//        $this->registry = $registry;
+//        $this->registry->addWorkflow($stateMachine, new InstanceOfSupportStrategy(TrafficLight::class));
+//    }
+
     /**
      * @Route("/", name="traffic_light_index")
      */
@@ -71,7 +89,7 @@ class TrafficLightController extends Controller
      */
     public function resetMarkingAction(TrafficLight $task)
     {
-        $task->setState(null);
+        $task->setState('green');
         $this->get('doctrine')->getManager()->flush();
 
         return $this->redirect($this->generateUrl('traffic_light_show', ['id' => $task->getId()]));
