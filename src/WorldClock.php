@@ -18,11 +18,8 @@ class WorldClock
 
     /**
      * Get a date relative the fake time.
-     *
-     * @param string $time
-     * @return \DateTimeImmutable
      */
-    public static function getDateTimeRelativeFakeTime($time = "now")
+    public static function getDateTimeRelativeFakeTime(string $time = "now"): \DateTimeImmutable
     {
         $actualTime = new \DateTimeImmutable();
         $requestedTime = new \DateTimeImmutable($time);

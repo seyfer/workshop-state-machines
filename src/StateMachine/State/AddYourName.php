@@ -14,7 +14,7 @@ class AddYourName implements StateInterface
         $user = $stateMachine->getUser();
 
         if (empty($user->getName()) && !empty($user->getEmail())) {
-            $mailer->sendEmail($user, $user->getId() . ' please enter your name ');
+            $mailer->sendEmail($user, $user->getId() . ' please enter your name');
             return self::STOP;
         }
 

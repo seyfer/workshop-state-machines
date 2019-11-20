@@ -19,7 +19,7 @@ class Worker
         $this->mailer = $mailer;
     }
 
-    public function run()
+    public function run(): void
     {
         $users = $this->db->getAllUsers();
 
