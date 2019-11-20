@@ -20,6 +20,10 @@ services:
         class: Symfony\Component\Workflow\StateMachine
         factory: 'App\Workflow\TrafficLightFactory:create'
 
+    App\Controller\SignupController:
+        arguments:
+            $stateMachine: '@state_machine.signup'
+
 sensio_framework_extra:
     router:
         annotations: false

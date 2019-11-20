@@ -13,18 +13,45 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Workflow\Marking;
+use Symfony\Component\Workflow\StateMachine;
 
 class SignupController extends Controller
 {
     private $em;
 
     /**
+     * @var StateMachine
+     */
+    private $stateMachine;
+
+    /**
      *
      * @param $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, StateMachine $stateMachine)
     {
         $this->em = $em;
+        $this->stateMachine = $stateMachine;
+    }
+
+    private function applyTransition(UserProfile $userProfile, string $transition): string
+    {
+        $newPlaces = $this->stateMachine->apply($userProfile, $transition)->getPlaces();
+        $newPlace = array_keys($newPlaces)[0];
+        $route = $this->stateMachine->getMetadataStore()->getPlaceMetadata($newPlace)['route'];
+
+        return $route;
+    }
+
+    private function applyAndPersist(UserProfile $userProfile, string $transition): string
+    {
+        $route = $this->applyTransition($userProfile, $transition);
+
+        $this->em->persist($userProfile);
+        $this->em->flush();
+
+        return $route;
     }
 
     /**
@@ -37,17 +64,15 @@ class SignupController extends Controller
         $form = $this->createForm(NameType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($user);
-            $this->em->flush();
+            $route = $this->applyAndPersist($user, 'to_email');
 
-            return $this->redirectToRoute('signup_email', ['id' => $user->getId()]);
+            return $this->redirectToRoute($route, ['id' => $user->getId()]);
         }
 
         return $this->render('signup/start.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-
 
     /**
      * @Route("/signup/email/{id}", name="signup_email")
@@ -57,10 +82,9 @@ class SignupController extends Controller
         $form = $this->createForm(EmailAddressType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($user);
-            $this->em->flush();
+            $route = $this->applyAndPersist($user, 'to_twitter');
 
-            return $this->redirectToRoute('signup_twitter', ['id' => $user->getId()]);
+            return $this->redirectToRoute($route, ['id' => $user->getId()]);
         }
 
         return $this->render('signup/email.html.twig', [
@@ -76,10 +100,9 @@ class SignupController extends Controller
         $form = $this->createForm(TwitterType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($user);
-            $this->em->flush();
+            $route = $this->applyAndPersist($user, 'to_color');
 
-            return $this->redirectToRoute('signup_color', ['id' => $user->getId()]);
+            return $this->redirectToRoute($route, ['id' => $user->getId()]);
         }
 
         return $this->render('signup/twitter.html.twig', [
@@ -95,10 +118,9 @@ class SignupController extends Controller
         $form = $this->createForm(FavoriteColorType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($user);
-            $this->em->flush();
+            $route = $this->applyAndPersist($user, 'to_done');
 
-            return $this->redirectToRoute('signup_done', ['id' => $user->getId()]);
+            return $this->redirectToRoute($route, ['id' => $user->getId()]);
         }
 
         return $this->render('signup/color.html.twig', [

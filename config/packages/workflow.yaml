@@ -157,3 +157,43 @@ framework:
                         - open
                         - closed
                     to: locked
+
+        signup:
+            type: 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                - App\Entity\UserProfile
+            initial_marking: start
+            places:
+                start:
+                    metadata:
+                        route: signup_start
+                email:
+                    metadata:
+                        route: signup_email
+                twitter:
+                    metadata:
+                        route: signup_twitter
+                color:
+                    metadata:
+                        route: signup_color
+                done:
+                    metadata:
+                        route: signup_done
+            transitions:
+                to_email:
+                    from: start
+                    to: email
+                to_twitter:
+                    from: email
+                    to: twitter
+                to_color:
+                    from: twitter
+                    to: color
+                to_done:
+                    from: color
+                    to: done
