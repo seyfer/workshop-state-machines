@@ -13,19 +13,20 @@ class StateMachine3Test extends TestCase
 {
     /** @var  StateMachine */
     private $sm;
+
     protected function setUp()/* The :void return type declaration that should be here would cause a BC issue */
     {
         parent::setUp();
-        $this->sm = new StateMachine( [
+        $this->sm = new StateMachine([
             'green' => [
-                'to_yellow' =>  'yellow',
+                'to_yellow' => 'yellow',
             ],
             'yellow' => [
                 'to_green' => 'green',
                 'to_red' => 'red',
             ],
             'red' => [
-                'to_yellow' =>  'yellow',
+                'to_yellow' => 'yellow',
             ],
         ]);
     }

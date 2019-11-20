@@ -43,7 +43,6 @@ class StateMachine1Test extends TestCase
     }
 
 
-
     public function canProvider()
     {
         return [

@@ -6,8 +6,20 @@ namespace App;
 
 class TrafficLightStateMachine
 {
-    /** @var string State. (Exercise 1) This variable name is used in tests. Do not rename.  */
+    /** @var string State. (Exercise 1) This variable name is used in tests. Do not rename. */
     private $state;
+
+    private $transitions = [
+        'green' => ['to_yellow'],
+        'yellow' => ['to_red', 'to_green'],
+        'red' => ['to_yellow'],
+    ];
+
+    private $workflow = [
+        'to_green' => 'green',
+        'to_red' => 'red',
+        'to_yellow' => 'yellow',
+    ];
 
     /**
      * Check if we are allowed to apply $state right now. Ie, is there an transition
@@ -15,7 +27,7 @@ class TrafficLightStateMachine
      */
     public function can(string $transition): bool
     {
-        // TODO write me
+        return in_array($transition, $this->transitions[$this->state], true);
     }
 
     /**
@@ -25,6 +37,10 @@ class TrafficLightStateMachine
      */
     public function apply(string $transition): void
     {
-        // TODO write me
+        if (!$this->can($transition)) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->state = $this->workflow[$transition];
     }
 }
