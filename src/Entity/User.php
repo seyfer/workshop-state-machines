@@ -6,9 +6,21 @@ namespace App\Entity;
 
 class User
 {
+    /**
+     * @var int
+     */
     private $id;
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var string
+     */
     private $email;
+    /**
+     * @var string
+     */
     private $twitter;
 
     /**
@@ -31,7 +43,7 @@ class User
     {
         $user = new self();
 
-        $user->id = (int) $data['id'];
+        $user->id = (int)$data['id'];
         $user->name = $data['name'] ?? null;
         $user->email = $data['email'] ?? null;
         $user->twitter = $data['twitter'] ?? null;

@@ -13,6 +13,6 @@ class MailerService
      */
     public function sendEmail(User $user, string $title)
     {
-        echo sprintf('Sending email to user (ID: %s) with title "%s"', $user->getId(), $title)."\n";
+        echo sprintf('Sending email to user (ID: %s) with title "%s"', $user->getId(), $title) . "\n";
     }
 }

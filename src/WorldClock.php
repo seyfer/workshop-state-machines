@@ -25,7 +25,7 @@ class WorldClock
     public static function getDateTimeRelativeFakeTime($time = "now")
     {
         $actualTime = new \DateTimeImmutable();
-        $requestedTime =  new \DateTimeImmutable($time);
+        $requestedTime = new \DateTimeImmutable($time);
         $diff = $actualTime->diff($requestedTime);
 
         $fakedDateTime = (new \DateTimeImmutable())->setTimestamp(self::getCurrentTimestamp());

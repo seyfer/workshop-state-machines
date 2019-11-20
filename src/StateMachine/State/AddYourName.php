@@ -13,9 +13,12 @@ class AddYourName implements StateInterface
     {
         $user = $stateMachine->getUser();
 
-        // TODO Do some conditional checks
-        // Optional: send an email
-        // Optional: Move to a new state
-    }
+        if (empty($user->getName())) {
+            $mailer->sendEmail($user, $user->getId() . ' please enter your name ');
+        }
 
+        $stateMachine->setState(new AddYourTwitter());
+
+        return self::CONTINUE;
+    }
 }
